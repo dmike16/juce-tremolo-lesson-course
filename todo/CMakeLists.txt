@@ -67,7 +67,7 @@ juce_add_plugin(
   PRODUCT_NAME
     ${TREMOLO_PLUGIN_NAME}
   VERSION
-    # TODO: add version
+    0.0.0
   COMPANY_NAME
     # TODO: add company
   PLUGIN_MANUFACTURER_CODE
