@@ -10,7 +10,7 @@ set(CMAKE_POLICY_DEFAULT_CMP0141        NEW      CACHE STRING "" FORCE)
 
 # Sets the minimum deployment target
 # macOS 10.11 is the minimum required by JUCE
-set(CMAKE_OSX_DEPLOYMENT_TARGET "10.11" CACHE STRING "" FORCE)
+set(CMAKE_OSX_DEPLOYMENT_TARGET "15.0" CACHE STRING "" FORCE)
 # Builds a binary that works on Apple Silicon (arm64) and Intel-based Macs
 set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE STRING "" FORCE)
 
@@ -77,6 +77,7 @@ juce_add_plugin(
   FORMATS
     Standalone
     AU
+    AUv3
     VST3
   IS_SYNTH
     FALSE
@@ -88,6 +89,12 @@ juce_add_plugin(
     FALSE
   COPY_PLUGIN_AFTER_BUILD
     FALSE
+  MICROPHONE_PERMISSION_ENABLED
+    TRUE
+  CUSTOM_PLIST "<plist><dict>
+        <key>NSMicrophoneUsageDescription</key>
+        <string>This app requires microphone access to process real-time live audio through the Tremolo effect.</string>
+    </dict></plist>"
 )
 
 # Configures the JUCE sources included in the plugin target.
@@ -136,16 +143,18 @@ target_link_libraries(
 )
 
 # Zip the .vst3 bundle with the README.txt file
-get_target_property(VST3_BUNDLE_PATH TremoloCoursePlugin_VST3 JUCE_PLUGIN_ARTEFACT_FILE)
-cmake_path(GET VST3_BUNDLE_PATH PARENT_PATH VST3_BUNDLE_OUTPUT_DIR)
-add_custom_command(
-  TARGET TremoloCoursePlugin_VST3
-  POST_BUILD
-  WORKING_DIRECTORY ${VST3_BUNDLE_OUTPUT_DIR}
+if(TARGET TremoloCoursePlugin_VST3)
+  get_target_property(VST3_BUNDLE_PATH TremoloCoursePlugin_VST3 JUCE_PLUGIN_ARTEFACT_FILE)
+  cmake_path(GET VST3_BUNDLE_PATH PARENT_PATH VST3_BUNDLE_OUTPUT_DIR)
+  add_custom_command(
+    TARGET TremoloCoursePlugin_VST3
+    POST_BUILD
+    WORKING_DIRECTORY ${VST3_BUNDLE_OUTPUT_DIR}
   # For some reason, if the README.txt is in a different directory, zipping it fails, thus, we need to copy it first
-  COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/assets/README.txt" ${VST3_BUNDLE_OUTPUT_DIR}
-  COMMAND ${CMAKE_COMMAND} -E tar cvf "${VST3_BUNDLE_OUTPUT_DIR}/Tremolo.zip" --format=zip -- "${VST3_BUNDLE_PATH}" README.txt
-)
+    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/assets/README.txt" ${VST3_BUNDLE_OUTPUT_DIR}
+    COMMAND ${CMAKE_COMMAND} -E tar cvf "${VST3_BUNDLE_OUTPUT_DIR}/Tremolo.zip" --format=zip -- "${VST3_BUNDLE_PATH}" README.txt
+  )
+endif ()
 
 # In Visual Studio this command provides a nice grouping of source files in "filters".
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/..)

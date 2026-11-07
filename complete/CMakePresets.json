@@ -85,7 +85,20 @@
     {
       "name": "xcode",
       "generator": "Xcode",
-      "binaryDir": "xcode-build"
+      "binaryDir": "xcode-build",
+      "cacheVariables": {
+        "CMAKE_OSX_SYSROOT": "macosx",
+        "CMAKE_OSX_DEPLOYMENT_TARGET": "13.0"
+      }
+    },
+    {
+      "name": "xcode-ios",
+      "generator": "Xcode",
+      "binaryDir": "xcode-ios-build",
+      "cacheVariables": {
+        "CMAKE_SYSTEM_NAME": "iOS",
+        "CMAKE_OSX_DEPLOYMENT_TARGET": "15.0"
+      }
     }
   ],
   "buildPresets": [
@@ -131,6 +144,10 @@
     {
       "name": "xcode",
       "configurePreset": "xcode"
+    },
+    {
+      "name": "xcode-ios",
+      "configurePreset": "xcode-ios"
     }
   ],
   "testPresets": [
@@ -173,6 +190,12 @@
       "name": "xcode",
       "inherits": "default-with-tests",
       "configurePreset": "xcode",
+      "configuration": "Debug"
+    },
+    {
+      "name": "xcode-ios",
+      "inherits": "default-with-tests",
+      "configurePreset": "xcode-ios",
       "configuration": "Debug"
     }
   ]

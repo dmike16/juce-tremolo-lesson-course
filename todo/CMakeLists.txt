@@ -10,7 +10,7 @@ set(CMAKE_POLICY_DEFAULT_CMP0141        NEW      CACHE STRING "" FORCE)
 
 # Sets the minimum deployment target
 # macOS 10.11 is the minimum required by JUCE
-set(CMAKE_OSX_DEPLOYMENT_TARGET "10.11" CACHE STRING "" FORCE)
+set(CMAKE_OSX_DEPLOYMENT_TARGET "13.0" CACHE STRING "" FORCE)
 # Builds a binary that works on Apple Silicon (arm64) and Intel-based Macs
 set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE STRING "" FORCE)
 
@@ -61,7 +61,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 # Adds a plugin target.
-set(TREMOLO_PLUGIN_NAME "TODO: set your plugin name")
+set(TREMOLO_PLUGIN_NAME "TremoloHarmonic")
 juce_add_plugin(
   TremoloCoursePlugin
   PRODUCT_NAME
@@ -69,14 +69,15 @@ juce_add_plugin(
   VERSION
     0.0.0
   COMPANY_NAME
-    # TODO: add company
+    "DualLab"
   PLUGIN_MANUFACTURER_CODE
-    # TODO: add plugin manufacturer code
+    Dulb
   PLUGIN_CODE
-    # TODO: add plugin code
+    Trmh
   FORMATS
     Standalone
     AU
+    AUv3
     VST3
   IS_SYNTH
     FALSE
