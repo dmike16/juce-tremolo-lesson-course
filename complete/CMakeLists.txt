@@ -79,6 +79,7 @@ juce_add_plugin(
     AU
     AUv3
     VST3
+    AAX
   IS_SYNTH
     FALSE
   NEEDS_MIDI_INPUT
@@ -88,7 +89,7 @@ juce_add_plugin(
   VST3_AUTO_MANIFEST
     FALSE
   COPY_PLUGIN_AFTER_BUILD
-    FALSE
+    TRUE
   MICROPHONE_PERMISSION_ENABLED
     TRUE
   CUSTOM_PLIST "<plist><dict>

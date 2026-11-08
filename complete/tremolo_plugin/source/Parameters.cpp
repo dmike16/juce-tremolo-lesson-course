@@ -13,7 +13,7 @@ juce::AudioParameterFloat& createModulationRateParameter(
   return addParameterToProcessor(
       processor,
       std::make_unique<juce::AudioParameterFloat>(
-          juce::ParameterID{"modulation.rate", versionHint}, "Modulation rate",
+          juce::ParameterID{"modulation_rate", versionHint}, "Modulation rate",
           juce::NormalisableRange<float>{0.1f, 20.f, 0.01f, 0.4f}, 5.f,
           juce::AudioParameterFloatAttributes{}.withLabel("Hz")));
 }
@@ -33,7 +33,7 @@ juce::AudioParameterChoice& createWaveformParameter(
   return addParameterToProcessor(
       processor,
       std::make_unique<juce::AudioParameterChoice>(
-          juce::ParameterID{"modulation.waveform", versionHint},
+          juce::ParameterID{"modulation_waveform", versionHint},
           "Modulation waveform", juce::StringArray{"Sine", "Triangle"}, 0));
 }
 }  // namespace
